@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "levels": [
+    {
+      "id": 1,
+      "title": "Werte, Datentypen, Variablen und Ausgabe",
+      "summary": "Du lernst, wie Python Informationen darstellt, speichert, berechnet und im Terminal ausgibt.",
+      "objectives": [
+        "String, Integer, Float und Boolean unterscheiden",
+        "Werte mit verständlichen Variablennamen speichern",
+        "Zuweisung und Vergleich unterscheiden",
+        "Mit print() verständliche Ausgaben erzeugen",
+        "Die Rechenoperatoren +, -, *, /, //, % und ** einordnen"
+      ],
+      "sections": [
+        {
+          "title": "Werte und Datentypen",
+          "body": "Programme arbeiten mit Werten. Text heißt String und steht in Anführungszeichen. Ganze Zahlen heißen Integer. Dezimalzahlen heißen Float. Wahrheitswerte heißen Boolean und lauten True oder False."
+        },
+        {
+          "title": "Variablen und Zuweisung",
+          "body": "Eine Variable ist ein Name, der auf einen Wert verweist. Bei alter = 25 wird der rechte Wert dem linken Namen zugewiesen. Das einzelne Gleichheitszeichen weist zu; zwei Gleichheitszeichen vergleichen."
+        },
+        {
+          "title": "Ausgabe mit print()",
+          "body": "print(...) zeigt Werte im Terminal. Ein Variablenname steht ohne Anführungszeichen in print(), weil sonst nur der Name als Text ausgegeben wird."
+        },
+        {
+          "title": "Rechnen und Operatorrangfolge",
+          "body": "Python rechnet mit +, -, *, /, //, % und **. Multiplikation und Division werden vor Addition und Subtraktion ausgeführt. Klammern machen die gewünschte Reihenfolge eindeutig."
+        }
+      ],
+      "example": "name = \"Alex\"\nalter = 25\npreis = 19.99\nist_aktiv = True\n\nprint(\"Name:\", name)\nprint(\"Alter in fünf Jahren:\", alter + 5)\nprint(\"Preis für zwei Stück:\", preis * 2)\nprint(\"Aktiv:\", ist_aktiv)",
+      "exampleNotes": [
+        "\"Alex\" ist ein String.",
+        "25 ist ein Integer, 19.99 ein Float und True ein Boolean.",
+        "alter + 5 und preis * 2 werden vor der Ausgabe berechnet.",
+        "print() trennt mehrere Werte standardmäßig durch ein Leerzeichen."
+      ],
+      "check": [
+        {
+          "question": "Welcher Datentyp ist \"Python\"?",
+          "options": [
+            "String",
+            "Integer",
+            "Boolean"
+          ],
+          "answer": 0,
+          "explanation": "Text in Anführungszeichen ist ein String."
+        },
+        {
+          "question": "Was bewirkt alter = 25?",
+          "options": [
+            "Es vergleicht alter mit 25",
+            "Es speichert 25 unter dem Namen alter",
+            "Es gibt 25 aus"
+          ],
+          "answer": 1,
+          "explanation": "Das einzelne Gleichheitszeichen ist eine Zuweisung."
+        },
+        {
+          "question": "Welcher Ausdruck berechnet den Rest einer Division?",
+          "options": [
+            "10 / 3",
+            "10 // 3",
+            "10 % 3"
+          ],
+          "answer": 2,
+          "explanation": "Der Modulo-Operator % liefert den Divisionsrest."
+        }
+      ],
+      "guided": {
+        "title": "Persönliche Vorstellung",
+        "task": "Speichere deinen Namen, dein Alter und deinen Wohnort in Variablen. Gib anschließend alle drei Informationen mit verständlichen Beschriftungen aus.",
+        "allowed": "Strings, Integer, Variablen, Zuweisung und print().",
+        "requirements": [
+          "name enthält Text",
+          "alter enthält eine ganze Zahl",
+          "wohnort enthält Text",
+          "alle drei Variablen werden mit print() ausgegeben"
+        ],
+        "starter": "name = \"\"\nalter = 0\nwohnort = \"\"\n\n# Ergänze hier deine Ausgaben\n",
+        "hints": [
+          "Fülle zuerst rechts vom Gleichheitszeichen die drei Werte aus.",
+          "Nutze für jede Information eine eigene print()-Zeile.",
+          "Eine mögliche Form ist print(\"Name:\", name)."
+        ],
+        "tests": [
+          {
+            "label": "name enthält Text",
+            "pattern": "\\bname\\s*=\\s*[\\\"'][^\\\"']+[\\\"']"
+          },
+          {
+            "label": "alter enthält eine ganze Zahl",
+            "pattern": "\\balter\\s*=\\s*\\d+"
+          },
+          {
+            "label": "wohnort enthält Text",
+            "pattern": "\\bwohnort\\s*=\\s*[\\\"'][^\\\"']+[\\\"']"
+          },
+          {
+            "label": "name wird ausgegeben",
+            "pattern": "print\\s*\\([^)]*\\bname\\b[^)]*\\)"
+          },
+          {
+            "label": "alter wird ausgegeben",
+            "pattern": "print\\s*\\([^)]*\\balter\\b[^)]*\\)"
+          },
+          {
+            "label": "wohnort wird ausgegeben",
+            "pattern": "print\\s*\\([^)]*\\bwohnort\\b[^)]*\\)"
+          }
+        ]
+      },
+      "independent": {
+        "title": "Einkaufsberechnung",
+        "task": "Speichere Produktname, Einzelpreis und Menge. Berechne den Gesamtpreis und gib Produkt sowie Gesamtpreis aus.",
+        "allowed": "Alle Inhalte dieses Levels.",
+        "requirements": [
+          "produkt, preis und menge speichern",
+          "gesamtpreis als preis * menge berechnen",
+          "produkt und gesamtpreis ausgeben"
+        ],
+        "starter": "",
+        "hints": [
+          "Lege zuerst drei Variablen an.",
+          "Speichere preis * menge in einer neuen Variable gesamtpreis.",
+          "Gib produkt und gesamtpreis anschließend aus."
+        ],
+        "tests": [
+          {
+            "label": "produkt vorhanden",
+            "pattern": "\\bprodukt\\s*="
+          },
+          {
+            "label": "preis vorhanden",
+            "pattern": "\\bpreis\\s*="
+          },
+          {
+            "label": "menge vorhanden",
+            "pattern": "\\bmenge\\s*="
+          },
+          {
+            "label": "Gesamtpreis wird multipliziert",
+            "pattern": "preis\\s*\\*\\s*menge|menge\\s*\\*\\s*preis"
+          },
+          {
+            "label": "Ausgabe vorhanden",
+            "pattern": "print\\s*\\("
+          }
+        ]
+      },
+      "exam": {
+        "questions": [
+          {
+            "question": "Welche Schreibweise erzeugt einen Float?",
+            "options": [
+              "19",
+              "\"19.99\"",
+              "19.99"
+            ],
+            "answer": 2
+          },
+          {
+            "question": "Was unterscheidet = und ==?",
+            "options": [
+              "= weist zu, == vergleicht",
+              "Beide vergleichen",
+              "= gibt aus, == addiert"
+            ],
+            "answer": 0
+          },
+          {
+            "question": "Welcher Operator potenziert?",
+            "options": [
+              "^",
+              "**",
+              "//"
+            ],
+            "answer": 1
+          }
+        ],
+        "title": "Klausuraufgabe: Fahrtkosten",
+        "task": "Speichere gefahrene Kilometer und Kosten pro Kilometer. Berechne die Gesamtkosten und gib eine verständliche Ausgabe aus.",
+        "requirements": [
+          "kilometer speichern",
+          "kosten_pro_kilometer speichern",
+          "beide Werte multiplizieren",
+          "Ergebnis ausgeben"
+        ],
+        "tests": [
+          {
+            "label": "kilometer vorhanden",
+            "pattern": "\\bkilometer\\s*="
+          },
+          {
+            "label": "kosten_pro_kilometer vorhanden",
+            "pattern": "\\bkosten_pro_kilometer\\s*="
+          },
+          {
+            "label": "korrekte Multiplikation",
+            "pattern": "kilometer\\s*\\*\\s*kosten_pro_kilometer|kosten_pro_kilometer\\s*\\*\\s*kilometer"
+          },
+          {
+            "label": "Ausgabe vorhanden",
+            "pattern": "print\\s*\\("
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "title": "Bedingungen, Vergleiche und logische Operatoren",
+      "summary": "Du bringst Programme dazu, anhand klarer Regeln Entscheidungen zu treffen.",
+      "objectives": [
+        "Vergleichsoperatoren korrekt verwenden",
+        "if, elif und else strukturieren",
+        "and, or und not einsetzen",
+        "Einrückung als Teil der Python-Syntax verstehen",
+        "Bedingungen von allgemein nach spezifisch vermeiden"
+      ],
+      "sections": [
+        {
+          "title": "Vergleiche",
+          "body": "== prüft Gleichheit, != Ungleichheit, > und < Größenverhältnisse und >= beziehungsweise <= schließen Gleichheit ein. Das Ergebnis ist immer True oder False."
+        },
+        {
+          "title": "if, elif und else",
+          "body": "if prüft den ersten Fall. elif prüft weitere Fälle, wenn vorherige Bedingungen False waren. else behandelt alle verbleibenden Fälle."
+        },
+        {
+          "title": "Logische Operatoren",
+          "body": "and verlangt, dass beide Teilbedingungen wahr sind. or genügt eine wahre Teilbedingung. not kehrt einen Wahrheitswert um."
+        },
+        {
+          "title": "Einrückung und Reihenfolge",
+          "body": "Python erkennt Codeblöcke an der Einrückung. Bei Grenzwerten wird üblicherweise zuerst die höchste oder spezifischste Bedingung geprüft."
+        }
+      ],
+      "example": "alter = 20\nhat_ticket = True\n\nif alter >= 18 and hat_ticket:\n    print(\"Einlass erlaubt\")\nelif alter >= 18:\n    print(\"Ticket fehlt\")\nelse:\n    print(\"Kein Einlass\")",
+      "exampleNotes": [
+        "Beide Bedingungen im if müssen wegen and True sein.",
+        "elif wird nur geprüft, wenn das if False war.",
+        "else benötigt keine eigene Bedingung."
+      ],
+      "check": [
+        {
+          "question": "Welcher Operator prüft Gleichheit?",
+          "options": [
+            "=",
