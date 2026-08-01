@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="OQ Python Academy">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0b1020"/>
+  <rect x="38" y="38" width="436" height="436" rx="92" fill="url(#g)"/>
+  <path fill="#fff" d="M122 137c0-26 21-47 47-47h77c26 0 47 21 47 47v73H170c-27 0-48-22-48-48v-25zm72-2a20 20 0 1 0 0 40 20 20 0 0 0 0-40z"/>
+  <path fill="#f4f4ff" opacity=".94" d="M390 375c0 26-21 47-47 47h-77c-26 0-47-21-47-47v-73h123c27 0 48 22 48 48v25zm-72 2a20 20 0 1 0 0-40 20 20 0 0 0 0 40z"/>
+  <path fill="#fff" opacity=".9" d="M196 222h120c41 0 74 33 74 74v18c-13-11-30-18-48-18H219v-26c0-19-10-36-23-48z"/>
+  <path fill="#fff" opacity=".9" d="M316 290H196c-41 0-74-33-74-74v-18c13 11 30 18 48 18h123v26c0 19 10 36 23 48z"/>
+</svg>
