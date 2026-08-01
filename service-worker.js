@@ -1,4 +1,11 @@
-const CACHE_NAME = "oq-python-academy-v4.0.0";
+const CACHE_NAME = "oq-python-academy-v4.0.0-fix1";
+const DATA_PARTS = [
+  "./data/academy-data-00.b64part",
+  "./data/academy-data-01.b64part",
+  "./data/academy-data-02.b64part",
+  "./data/academy-data-03.b64part",
+  "./data/academy-data-04.b64part",
+];
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -7,11 +14,10 @@ const CORE_ASSETS = [
   "./manifest.webmanifest",
   "./version.json",
   "./icons/icon.svg",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png",
-  "./data/curriculum.json",
-  "./data/glossary.json",
+  ...DATA_PARTS,
 ];
+
+let dataBundlePromise = null;
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -40,6 +46,16 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
+  if (url.pathname.endsWith("/data/curriculum.json")) {
+    event.respondWith(createDataResponse("curriculum"));
+    return;
+  }
+
+  if (url.pathname.endsWith("/data/glossary.json")) {
+    event.respondWith(createDataResponse("glossary"));
+    return;
+  }
+
   const isFreshnessCritical = request.mode === "navigate"
     || url.pathname.endsWith("version.json")
     || url.pathname.includes("/data/")
@@ -47,12 +63,67 @@ self.addEventListener("fetch", (event) => {
     || url.pathname.endsWith("styles.css")
     || url.pathname.endsWith("service-worker.js");
 
-  if (isFreshnessCritical) {
-    event.respondWith(networkFirst(request));
-  } else {
-    event.respondWith(cacheFirst(request));
-  }
+  event.respondWith(isFreshnessCritical ? networkFirst(request) : cacheFirst(request));
 });
+
+async function createDataResponse(key) {
+  try {
+    const bundle = await loadDataBundle();
+    return new Response(JSON.stringify(bundle[key]), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store",
+      },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+    });
+  }
+}
+
+async function loadDataBundle() {
+  if (dataBundlePromise) return dataBundlePromise;
+
+  dataBundlePromise = (async () => {
+    const cache = await caches.open(CACHE_NAME);
+    const partTexts = await Promise.all(DATA_PARTS.map(async (path) => {
+      let response = await cache.match(path, { ignoreSearch: true });
+      if (!response) {
+        response = await fetch(path, { cache: "no-store" });
+        if (!response.ok) throw new Error(`Datenteil fehlt: ${path}`);
+        await cache.put(path, response.clone());
+      }
+      return response.text();
+    }));
+
+    const base64 = partTexts.join("").replace(/\s/g, "");
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let index = 0; index < binary.length; index += 1) {
+      bytes[index] = binary.charCodeAt(index);
+    }
+
+    if (!("DecompressionStream" in self)) {
+      throw new Error("Dieser Browser unterstützt die benötigte Daten-Dekomprimierung nicht.");
+    }
+
+    const decompressedStream = new Blob([bytes])
+      .stream()
+      .pipeThrough(new DecompressionStream("gzip"));
+    const jsonText = await new Response(decompressedStream).text();
+    return JSON.parse(jsonText);
+  })();
+
+  try {
+    return await dataBundlePromise;
+  } catch (error) {
+    dataBundlePromise = null;
+    throw error;
+  }
+}
 
 async function networkFirst(request) {
   const cache = await caches.open(CACHE_NAME);
