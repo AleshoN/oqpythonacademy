@@ -1,0 +1,13 @@
+{
+  "version": "4.0.0",
+  "schemaVersion": 1,
+  "releasedAt": "2026-08-01T21:32:00+02:00",
+  "channel": "stable",
+  "notes": [
+    "Erste standalone PWA-Version",
+    "Automatische lokale Speicherung mit IndexedDB",
+    "10 logisch aufeinander aufbauende Level",
+    "155 Glossarbegriffe mit Suche und persönlichen Notizen",
+    "Automatische Updates über GitHub Pages und Service Worker"
+  ]
+}

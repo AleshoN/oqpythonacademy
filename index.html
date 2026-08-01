@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#8b5cf6">
+  <meta name="description" content="Interaktive Python-Akademie vom Beginner bis zum Profi mit lokalem Fortschritt, Übungen, Klausuren und Glossar.">
+  <title>OQ Python Academy</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <noscript>
+    <div class="noscript">Diese Akademie benötigt JavaScript.</div>
+  </noscript>
+
+  <header class="app-header">
+    <div class="brand">
+      <img src="./icons/icon.svg" alt="" class="brand-icon">
+      <div>
+        <div class="brand-title">OQ Python Academy</div>
+        <div class="brand-subtitle">Dein interaktiver Lehrer · V<span id="appVersion">4.0.0</span></div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span id="saveIndicator" class="status-pill" aria-live="polite">Lernstand wird geladen …</span>
+      <button id="installButton" class="button secondary hidden" type="button">Als App installieren</button>
+      <button id="updateButton" class="button secondary" type="button">Updates prüfen</button>
+    </div>
+  </header>
+
+  <div id="updateBanner" class="update-banner hidden" role="status">
+    <div>
+      <strong>Neue Version verfügbar</strong>
+      <div id="updateText" class="muted small"></div>
+    </div>
+    <button id="applyUpdateButton" class="button primary" type="button">Jetzt aktualisieren</button>
+  </div>
+
+  <main class="app-shell">
+    <section class="metric-grid" aria-label="Lernfortschritt">
+      <article class="metric-card">
+        <span class="metric-label">Aktuelles Level</span>
+        <strong id="metricLevel" class="metric-value">1</strong>
+        <span id="metricLevelName" class="muted small">–</span>
+      </article>
+      <article class="metric-card">
+        <span class="metric-label">Phase</span>
+        <strong id="metricPhase" class="metric-value">Erklären</strong>
+        <span class="muted small">Erreichte Phasen bleiben offen</span>
+      </article>
+      <article class="metric-card">
+        <span class="metric-label">Beherrschung</span>
+        <strong id="metricMastery" class="metric-value">0 %</strong>
+        <div class="progress-track" aria-hidden="true"><div id="masteryBar" class="progress-bar"></div></div>
+      </article>
+      <article class="metric-card">
+        <span class="metric-label">Rang</span>
+        <strong id="metricRank" class="metric-value">Neuling</strong>
+        <span id="metricXp" class="muted small">0 XP</span>
+      </article>
+    </section>
+
+    <nav class="main-tabs" aria-label="Hauptbereiche">
+      <button class="tab-button active" data-view="academy" type="button">🎓 Unterricht</button>
+      <button class="tab-button" data-view="glossary" type="button">📚 Profi-Glossar</button>
+      <button class="tab-button" data-view="progress" type="button">📈 Fortschritt</button>
+      <button class="tab-button" data-view="settings" type="button">⚙️ Einstellungen</button>
+    </nav>
+
+    <section id="academyView" class="view">
+      <div class="academy-layout">
+        <aside class="panel sidebar">
+          <div class="panel-heading">
+            <div>
+              <h2>Ausbildungsweg</h2>
+              <p class="muted small">Die nächste Stufe öffnet sich erst nach bestandener Klausur.</p>
+            </div>
+          </div>
+          <div id="levelMap" class="level-map"></div>
+        </aside>
+
+        <div class="academy-main">
+          <section class="teacher-card">
+            <div class="teacher-avatar" aria-hidden="true">🧑‍🏫</div>
+            <div>
+              <div class="teacher-heading">
+                <h2>Dein Python-Lehrer</h2>
+                <span id="teacherStatus" class="badge">Unterricht</span>
+              </div>
+              <div id="teacherMessage" class="teacher-message" aria-live="polite"></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Unterrichtsphasen</h2>
+                <p class="muted small">Du kannst jederzeit zu bereits erreichten Inhalten zurückkehren.</p>
+              </div>
+            </div>
+            <div id="phaseNavigation" class="phase-navigation"></div>
+          </section>
+
+          <section id="lessonPanel" class="panel phase-panel hidden"></section>
+          <section id="checkPanel" class="panel phase-panel hidden"></section>
+          <section id="practicePanel" class="panel phase-panel hidden"></section>
+          <section id="submissionPanel" class="panel phase-panel hidden"></section>
+          <section id="examPanel" class="panel phase-panel hidden"></section>
+
+          <section class="panel tutor-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Frage an deinen Lehrer</h2>
+                <p class="muted small">Frage zum aktuellen Stoff, zur Aufgabe oder zu deinem Code.</p>
+              </div>
+              <span class="badge">Kontextbezogen</span>
+            </div>
+            <div id="teacherChat" class="chat-log" aria-live="polite">
+              <article class="chat-message teacher">
+                <strong>🧑‍🏫 Lehrer</strong>
+                <p>Du kannst zum Beispiel fragen: „Warum braucht ein String Anführungszeichen?“, „Was fehlt in meinem Code?“ oder „Zeige mir ein weiteres Beispiel.“</p>
+              </article>
+            </div>
+            <label class="field-label" for="studentQuestion">Deine Frage</label>
+            <textarea id="studentQuestion" class="text-input chat-input" placeholder="Schreibe hier deine Frage …"></textarea>
+            <div class="form-footer">
+              <span class="muted small">Enter sendet · Shift + Enter erzeugt eine neue Zeile</span>
+              <button id="askTeacherButton" class="button primary" type="button">Frage stellen ↑</button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="glossaryView" class="view hidden">
+      <section class="panel glossary-controls">
+        <div class="panel-heading">
+          <div>
+            <h2>Persönliches Python- und Softwareentwicklungs-Glossar</h2>
+            <p class="muted small">155 Begriffe vom ersten Datentyp bis zu verteilten Systemen und technischer Führung.</p>
+          </div>
+        </div>
+        <div class="filter-grid">
+          <label>
+            <span class="field-label">Suchen</span>
+            <input id="glossarySearch" class="text-input" type="search" placeholder="Begriff, Thema oder Erklärung …">
+          </label>
+          <label>
+            <span class="field-label">Kategorie</span>
+            <select id="glossaryCategory" class="text-input"></select>
+          </label>
+          <label>
+            <span class="field-label">Anzeige</span>
+            <select id="glossaryVisibility" class="text-input">
+              <option value="all">Alle Begriffe</option>
+              <option value="learned">Bereits gelernt</option>
+              <option value="future">Spätere Inhalte</option>
+              <option value="favorites">Favoriten</option>
+            </select>
+          </label>
+        </div>
+      </section>
+      <div class="glossary-layout">
+        <section class="panel glossary-list-panel">
+          <div class="panel-heading compact">
+            <h2>Begriffe</h2>
+            <span id="glossaryCount" class="badge">0</span>
+          </div>
+          <div id="glossaryList" class="glossary-list"></div>
+        </section>
+        <article id="glossaryDetail" class="panel glossary-detail">
+          <p class="muted">Wähle links einen Begriff aus.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="progressView" class="view hidden">
+      <section class="metric-grid progress-metrics">
+        <article class="metric-card"><span class="metric-label">Bestandene Level</span><strong id="progressCompleted" class="metric-value">0 / 10</strong></article>
+        <article class="metric-card"><span class="metric-label">Gelernte Begriffe</span><strong id="progressTerms" class="metric-value">0 / 155</strong></article>
+        <article class="metric-card"><span class="metric-label">Klausurdurchschnitt</span><strong id="progressAverage" class="metric-value">–</strong></article>
+        <article class="metric-card"><span class="metric-label">Gespeicherte Antworten</span><strong id="progressSaves" class="metric-value">Automatisch</strong></article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <div><h2>Klausurhistorie</h2><p class="muted small">Alle Ergebnisse werden automatisch lokal gespeichert.</p></div>
+        </div>
+        <div id="examHistory" class="history-list"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <div><h2>Fehlerschwerpunkte</h2><p class="muted small">Nicht bestandene Anforderungen werden hier gesammelt.</p></div>
+        </div>
+        <div id="weaknessList" class="history-list"></div>
+      </section>
+    </section>
+
+    <section id="settingsView" class="view hidden">
+      <section class="settings-grid">
+        <article class="panel">
+          <div class="panel-heading"><div><h2>Lokaler Lernstand</h2><p class="muted small">Speicherung erfolgt automatisch über IndexedDB im aktuellen Browserprofil.</p></div></div>
+          <div class="callout success">
+            <strong>Kein manueller JSON-Export nötig.</strong>
+            <p>Nach jeder relevanten Aktion wird automatisch gespeichert. Lösche die Websitedaten dieser GitHub-Pages-Adresse nicht.</p>
+          </div>
+          <div class="button-row">
+            <button id="forceSaveButton" class="button primary" type="button">Jetzt speichern</button>
+            <button id="resetProgressButton" class="button danger" type="button">Fortschritt zurücksetzen</button>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading"><div><h2>Optionales Backup</h2><p class="muted small">Nur für Browserwechsel oder Notfälle.</p></div></div>
+          <div class="button-row">
+            <button id="exportBackupButton" class="button secondary" type="button">Backup herunterladen</button>
+            <label class="button secondary file-button">Backup importieren<input id="importBackupInput" type="file" accept="application/json,.json"></label>
+          </div>
+          <div id="backupStatus" class="muted small" aria-live="polite"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading"><div><h2>Updates</h2><p class="muted small">GitHub Pages veröffentlicht jede Änderung an main automatisch.</p></div></div>
+          <dl class="info-list">
+            <div><dt>Installierte Version</dt><dd id="settingsVersion">4.0.0</dd></div>
+            <div><dt>Updatekanal</dt><dd>GitHub Pages · main</dd></div>
+            <div><dt>Letzte Prüfung</dt><dd id="lastUpdateCheck">Noch nicht geprüft</dd></div>
+          </dl>
+          <button id="settingsUpdateButton" class="button primary" type="button">Jetzt nach Updates suchen</button>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading"><div><h2>Installation</h2><p class="muted small">Als eigenständige App auf Windows, Android oder unterstützten Browsern installieren.</p></div></div>
+          <ol class="instruction-list">
+            <li>Diese Website in Edge oder Chrome öffnen.</li>
+            <li>Oben „Als App installieren“ wählen oder das Installationssymbol in der Adressleiste verwenden.</li>
+            <li>Die App später über Startmenü oder Desktop öffnen.</li>
+          </ol>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <span>Fortschritt bleibt lokal auf deinem Gerät.</span>
+    <span id="onlineStatus">Online</span>
+  </footer>
+
+  <dialog id="confirmDialog" class="modal">
+    <form method="dialog" class="modal-content">
+      <h2 id="confirmTitle">Bestätigen</h2>
+      <p id="confirmText"></p>
+      <div class="button-row end">
+        <button value="cancel" class="button secondary">Abbrechen</button>
+        <button id="confirmActionButton" value="confirm" class="button danger">Bestätigen</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
